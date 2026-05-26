@@ -8,8 +8,11 @@ import { getCategories } from '@/lib/categories'
 import { getSiteConfig } from '@/lib/config'
 import { Category, SiteConfig } from '@/types'
 import { generateWhatsAppMessage, openWhatsApp, formatPrice } from '@/lib/whatsapp'
-import { MessageCircle, Copy, Check, ShoppingBag, ArrowLeft, Sparkles } from 'lucide-react'
+import { MessageCircle, Copy, Check, ShoppingBag, ArrowLeft, Sparkles, Truck } from 'lucide-react'
 import toast from 'react-hot-toast'
+
+const FRETE_FIXO = 25
+const FRETE_GRATIS_ACIMA = 120
 
 export default function FinalizarPage() {
   const { items, total, clearCart } = useCart()
@@ -33,6 +36,11 @@ export default function FinalizarPage() {
       </div>
     )
   }
+
+  const freteGratis = total >= FRETE_GRATIS_ACIMA
+  const valorFrete = freteGratis ? 0 : FRETE_FIXO
+  const totalComFrete = total + valorFrete
+  const faltaParaFrete = FRETE_GRATIS_ACIMA - total
 
   const message = config ? generateWhatsAppMessage(items, config) : ''
 
@@ -63,6 +71,23 @@ export default function FinalizarPage() {
           <div className="divider-rose mt-5" />
         </div>
 
+        {/* Banner frete */}
+        <div className={`rounded-2xl px-5 py-4 mb-6 flex items-center gap-3 ${freteGratis ? 'bg-green-50 border border-green-200' : 'bg-brown-50 border border-brown-100'}`}>
+          <Truck size={18} className={freteGratis ? 'text-green-600' : 'text-brown-500'} />
+          <div>
+            {freteGratis ? (
+              <p className="font-body text-sm font-medium text-green-700">🎉 Frete grátis aplicado!</p>
+            ) : (
+              <>
+                <p className="font-body text-sm font-medium text-brown-700">Frete: €{FRETE_FIXO},00</p>
+                <p className="font-body text-xs text-brown-400 mt-0.5">
+                  Adicione mais €{faltaParaFrete.toFixed(2).replace('.', ',')} para frete grátis
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+
         {/* Card VIP resumo */}
         <div className="bg-white rounded-3xl border border-brown-100 shadow-soft overflow-hidden mb-6">
           {/* Cabeçalho */}
@@ -87,13 +112,23 @@ export default function FinalizarPage() {
                 <p className="font-body text-sm font-semibold text-brown-900">{formatPrice(item.product.price * item.quantity)}</p>
               </div>
             ))}
+
+            {/* Linha frete */}
+            <div className="flex justify-between items-center pt-2 border-t border-brown-100">
+              <p className="font-body text-sm text-brown-600">Frete</p>
+              {freteGratis ? (
+                <p className="font-body text-sm font-semibold text-green-600">Grátis</p>
+              ) : (
+                <p className="font-body text-sm font-semibold text-brown-900">€{FRETE_FIXO},00</p>
+              )}
+            </div>
           </div>
 
           {/* Total VIP */}
           <div className="px-6 py-5 bg-rose-pale border-t border-rose-light/30">
             <div className="flex justify-between items-center">
               <p className="font-body text-sm font-semibold tracking-[0.1em] uppercase text-brown-700">Total</p>
-              <p className="font-display text-3xl font-light text-brown-900">{formatPrice(total)}</p>
+              <p className="font-display text-3xl font-light text-brown-900">{formatPrice(totalComFrete)}</p>
             </div>
           </div>
         </div>
