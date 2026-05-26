@@ -2,7 +2,6 @@
 // app/carrinho/page.tsx
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { useCart } from '@/context/CartContext'
@@ -56,12 +55,11 @@ export default function CarrinhoPage() {
                 <div key={item.product.id} className="bg-white flex gap-4 p-4 md:p-5">
                   {/* Imagem */}
                   <Link href={`/produto/${item.product.id}`}>
-                    <div className="relative w-20 h-24 md:w-24 md:h-28 flex-shrink-0 bg-nude-50 overflow-hidden">
-                      <Image
+                    <div className="w-20 h-24 md:w-24 md:h-28 flex-shrink-0 bg-nude-50 overflow-hidden">
+                      <img
                         src={item.product.images?.[0] || '/placeholder.jpg'}
                         alt={item.product.name}
-                        fill
-                        className="object-cover"
+                        className="object-cover w-full h-full"
                       />
                     </div>
                   </Link>
