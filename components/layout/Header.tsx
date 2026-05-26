@@ -26,7 +26,7 @@ export default function Header({ categories = [] }: HeaderProps) {
     <>
       {/* Barra anúncio */}
       <div className="bg-[#2C1810] text-white/90 text-[10px] tracking-[0.3em] uppercase font-body text-center py-2.5 px-4">
-        Frete gratuito para encomendas acima de €150 — Portugal e Bélgica
+        Frete fixo €25 — Grátis acima de €120 | Enviamos para a Europa
       </div>
 
       <header className={`sticky top-0 z-50 transition-all duration-300 ${
