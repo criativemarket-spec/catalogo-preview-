@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import Link from 'next/link'
-import { LayoutDashboard, Package, Tag, Image, Settings, LogOut, ChevronRight, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Package, Tag, Image, Settings, LogOut, ChevronRight, Menu } from 'lucide-react'
 import { signOut } from 'firebase/auth'
 
 const NAV = [
@@ -34,8 +34,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-nude-50 flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-nude-300 border-t-nude-700 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F8F4EF' }}>
+        <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#D4A87A', borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -48,15 +48,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-nude-50 flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: '#F8F4EF' }}>
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-60 bg-nude-800 flex flex-col transition-transform duration-300 md:translate-x-0 ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-60 flex flex-col transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ backgroundColor: '#2C1810' }}
+      >
         {/* Logo */}
-        <div className="p-6 border-b border-nude-700">
-          <p className="font-display text-lg font-light text-cream tracking-wider">Brasil Premium</p>
-          <p className="font-body text-[10px] tracking-[0.3em] uppercase text-cream/40 mt-0.5">Painel Admin</p>
+        <div className="p-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <p className="font-display text-lg font-light tracking-wider" style={{ color: '#F8F4EF' }}>Brasil Premium</p>
+          <p className="text-[10px] tracking-[0.3em] uppercase mt-0.5" style={{ color: 'rgba(248,244,239,0.5)' }}>Painel Admin</p>
         </div>
 
         {/* Nav */}
@@ -68,11 +69,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 key={href}
                 href={href}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 font-body text-xs tracking-[0.15em] uppercase transition-all duration-200 ${
-                  active
-                    ? 'bg-[var(--color-gold)] text-white'
-                    : 'text-cream/60 hover:text-cream hover:bg-nude-700'
-                }`}
+                className="flex items-center gap-3 px-4 py-3 text-xs tracking-[0.15em] uppercase transition-all duration-200 rounded-lg"
+                style={{
+                  backgroundColor: active ? '#A0855A' : 'transparent',
+                  color: active ? '#ffffff' : 'rgba(248,244,239,0.7)',
+                }}
               >
                 <Icon size={15} />
                 {label}
@@ -82,14 +83,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Logout */}
-        <div className="p-4 border-t border-nude-700">
+        <div className="p-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 font-body text-xs tracking-[0.15em] uppercase text-cream/40 hover:text-cream transition-colors w-full"
+            className="flex items-center gap-3 px-4 py-3 text-xs tracking-[0.15em] uppercase transition-colors w-full rounded-lg hover:bg-white/10"
+            style={{ color: 'rgba(248,244,239,0.5)' }}
           >
             <LogOut size={15} /> Sair
           </button>
-          <Link href="/" className="flex items-center gap-3 px-4 py-3 font-body text-xs tracking-[0.15em] uppercase text-cream/40 hover:text-cream transition-colors mt-1">
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-4 py-3 text-xs tracking-[0.15em] uppercase transition-colors mt-1 rounded-lg hover:bg-white/10"
+            style={{ color: 'rgba(248,244,239,0.5)' }}
+          >
             Ver site <ChevronRight size={13} />
           </Link>
         </div>
@@ -103,11 +109,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Conteúdo */}
       <div className="flex-1 md:ml-60 flex flex-col">
         {/* Topbar mobile */}
-        <div className="md:hidden flex items-center justify-between px-4 h-14 bg-white border-b border-nude-100 sticky top-0 z-30">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 text-nude-700">
+        <div className="md:hidden flex items-center justify-between px-4 h-14 bg-white sticky top-0 z-30" style={{ borderBottom: '1px solid #E8CEAD' }}>
+          <button onClick={() => setSidebarOpen(true)} className="p-2" style={{ color: '#2C1810' }}>
             <Menu size={20} />
           </button>
-          <p className="font-display text-lg text-nude-800">Admin</p>
+          <p className="font-display text-lg" style={{ color: '#2C1810' }}>Admin</p>
           <div className="w-9" />
         </div>
 
